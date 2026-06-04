@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-cyber-blue: #00f0ff;
+  --color-cyber-dark: #030712;
+  --color-cyber-deep: #060c18;
+  --color-cyber-card: rgba(8, 16, 32, 0.5);
+  --color-cyber-card-hover: rgba(10, 24, 48, 0.7);
+  --color-cyber-neon: #0ea5e9;
+  --color-cyber-emerald: #10b981;
+  --color-cyber-muted: #64748b;
+  
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-mono: "Share Tech Mono", monospace;
+  --font-sans: "Inter", sans-serif;
+  
+  --animate-scan: scan 6s linear infinite;
+  --animate-hud-pulse: hud-pulse 3s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes hud-pulse {
+  0%, 100% { opacity: 0.15; filter: drop-shadow(0 0 2px rgba(0, 240, 255, 0.2)); }
+  50% { opacity: 0.35; filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.6)); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(0, 240, 255, 0.4)); }
+  50% { filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.8)); }
+}
+
+/* Global resets & cursor configurations */
+html {
+  scroll-behavior: smooth;
+  background-color: #030712;
+  color: #f3f4f6;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #030712;
+}
+
+/* Hide default cursor on desktop to support our custom precision cyber cursor */
+@media (min-width: 1025px) and (pointer: fine) {
+  html, body {
+    cursor: none !important;
+  }
+  a, button, input, textarea, select, [role="button"], .cursor-crosshair {
+    cursor: none !important;
+  }
+}
+
+/* Sleek tech cyber scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.15);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 240, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.4);
+}
+
+/* Glassmorphism elements */
+.glass-panel {
+  background: rgba(8, 16, 32, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.08);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(10, 24, 48, 0.65);
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.08);
+}
+
+/* Ambient Breathing Tech Grid */
+.tech-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Corner bracket HUD coordinates indicators */
+.cyber-corners {
+  position: relative;
+}
+
+.cyber-corners::before, .cyber-corners::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: rgba(0, 240, 255, 0.4);
+  border-style: solid;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.cyber-corners::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.cyber-corners::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+.cyber-corners:hover::before {
+  width: 12px;
+  height: 12px;
+  border-color: rgba(0, 240, 255, 1);
+}
+
+.cyber-corners:hover::after {
+  width: 12px;
+  height: 12px;
+  border-color: rgba(0, 240, 255, 1);
+}
+
+/* Scanning scanner HUD line */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to bottom, rgba(0, 240, 255, 0), rgba(0, 240, 255, 0.15), rgba(0, 240, 255, 0));
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.4;
+}
+
+/* Standard Neon Accent Glows */
+.text-neon-glow {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4), 0 0 2px rgba(0, 240, 255, 0.2);
+}
+
+.box-neon-glow {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+}
