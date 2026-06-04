@@ -42,13 +42,16 @@ if (!EMAIL_USER || !EMAIL_PASS) {
   console.log("SMTP configuration loaded successfully.");
   isEmailConfigured = true;
 
-  // Create Nodemailer transporter
+  // Create Nodemailer transporter with connection, greeting, and socket timeouts
   transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: EMAIL_USER,
       pass: EMAIL_PASS,
     },
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000,
   });
 
   // Verify transporter connection and output exact SMTP error stack
@@ -194,10 +197,21 @@ app.post("/api/contact", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Nodemailer Mail Dispatch Failure:", error.message);
+    console.error("Nodemailer Mail Dispatch Failure:", error);
+    let errorMessage = "Failed to send message. Please try again later.";
+    
+    if (error.code === 'EAUTH') {
+      errorMessage = "Authentication failed. Please verify the server credentials.";
+    } else if (error.code === 'ETIMEOUT') {
+      errorMessage = "Connection to the mail server timed out. Please try again later.";
+    } else if (error.code === 'ECONNREFUSED') {
+      errorMessage = "Connection refused by the mail server. Please try again later.";
+    }
+    
     return res.status(500).json({
       success: false,
-      message: "Failed to send message. Please try again later."
+      message: errorMessage,
+      error: error.message || "Unknown error"
     });
   }
 });
