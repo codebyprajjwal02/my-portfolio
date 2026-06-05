@@ -53,16 +53,6 @@ if (!EMAIL_USER || !EMAIL_PASS) {
     greetingTimeout: 30000,
     socketTimeout: 30000,
   });
-
-  // Verify transporter connection and output exact SMTP error stack
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error("SMTP VERIFY ERROR:");
-      console.error(error);
-    } else {
-      console.log("SMTP Server Ready");
-    }
-  });
 }
 
 // Enable CORS
