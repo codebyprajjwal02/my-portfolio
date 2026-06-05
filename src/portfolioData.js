@@ -4,7 +4,7 @@ export const portfolioData = {
     title: "Full Stack Developer | Computer Science Student",
     subtitle: "Building robust, scalable, and intelligent web systems.",
     oneLineIntro: "I build scalable web applications and solve real-world problems using React, Node.js, MongoDB, and Java. Passionate about full-stack development, system design, and creating impactful digital products.",
-    resumeUrl: "https://drive.google.com/file/d/1vGHDc5ePXQIWDtXyeT8r8z3VH9iFCUaT/view?usp=sharing", // Google Drive resume link
+    resumeUrl: "https://drive.google.com/uc?export=download&id=16Cw9UOTvip45c8pQ6UX-JhWHUDx33lmK", // Google Drive resume link
     email: "sprajjwalsingh230@gmail.com",
     github: "https://github.com/codebyprajjwal02",
     linkedin: "https://www.linkedin.com/in/prajjwal-kumar-singh-4927ba2a7/",

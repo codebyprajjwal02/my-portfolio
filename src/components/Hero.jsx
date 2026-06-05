@@ -136,7 +136,7 @@ export default function Hero() {
               <a
                 href={portfolioData.personalInfo.resumeUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="px-5 py-3 rounded-full font-mono text-xs tracking-widest font-semibold border border-cyber-blue/40 text-cyber-blue hover:bg-cyber-blue/10 hover:border-cyber-blue hover:text-white transition-all duration-300 flex items-center gap-1.5"
               >
                 <Shield className="w-4 h-4" />
