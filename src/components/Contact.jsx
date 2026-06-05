@@ -104,6 +104,16 @@ export default function Contact() {
     setFormStatus({ type: "info", text: "Sending Message..." });
 
     try {
+      const maskKey = (key) => {
+        if (!key) return "Missing";
+        const trimmed = key.trim();
+        if (trimmed.length <= 10) return `${trimmed.substring(0, 3)}***`;
+        return `${trimmed.substring(0, 10)}***`;
+      };
+      console.log("Service ID:", maskKey(import.meta.env.VITE_EMAILJS_SERVICE_ID));
+      console.log("Template ID:", maskKey(import.meta.env.VITE_EMAILJS_TEMPLATE_ID));
+      console.log("Public Key:", maskKey(import.meta.env.VITE_EMAILJS_PUBLIC_KEY));
+
       const templateParams = {
         name,
         email,
@@ -114,10 +124,10 @@ export default function Contact() {
       };
 
       const response = await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        import.meta.env.VITE_EMAILJS_SERVICE_ID?.trim(),
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID?.trim(),
         templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY?.trim()
       );
 
       if (response.status === 200 || response.text === "OK") {
@@ -137,6 +147,9 @@ export default function Contact() {
         throw new Error("EmailJS response status was not 200 OK");
       }
     } catch (err) {
+      console.log("EmailJS Error:", err);
+      console.log("Status:", err ? err.status : "undefined");
+      console.log("Text:", err ? err.text : "undefined");
       setIsSubmitting(false);
       setFormStatus({
         type: "error",
