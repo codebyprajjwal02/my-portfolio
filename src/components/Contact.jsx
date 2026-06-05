@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Send, Copy, Check, Mail, Clock, ShieldAlert, Sparkles, ExternalLink } from "lucide-react";
 import { portfolioData } from "../portfolioData";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -57,7 +58,7 @@ export default function Contact() {
     return val.replace(/<[^>]*>/g, "").trim();
   };
 
-  // Form Submit Handler (Custom Backend API)
+  // Form Submit Handler (EmailJS Direct SDK)
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     
@@ -103,18 +104,23 @@ export default function Contact() {
     setFormStatus({ type: "info", text: "Sending Message..." });
 
     try {
-      // POST API Call to custom backend
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ name, email, message })
-      });
+      const templateParams = {
+        name,
+        email,
+        message,
+        from_name: name,
+        from_email: email,
+        reply_to: email
+      };
 
-      const data = await response.json();
+      const response = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
-      if (response.ok) {
+      if (response.status === 200 || response.text === "OK") {
         setIsSubmitting(false);
         setFormStatus({
           type: "success",
@@ -128,14 +134,7 @@ export default function Contact() {
         setFormState({ name: "", email: "", message: "" });
         setTimeout(() => setFormStatus({ type: null, text: "" }), 6000);
       } else {
-        setIsSubmitting(false);
-        setFormStatus({
-          type: "error",
-          text: "Failed to send message. Please try again later."
-        });
-        
-        // Error Toast Notification
-        triggerToast("error", "Failed to send message. Please try again later.");
+        throw new Error("EmailJS response status was not 200 OK");
       }
     } catch (err) {
       setIsSubmitting(false);
@@ -146,7 +145,7 @@ export default function Contact() {
       
       // Connection Error Toast
       triggerToast("error", "Failed to send message. Please try again later.");
-      console.error("API Transmission Failure:", err);
+      console.error("EmailJS Transmission Failure:", err);
     }
   };
 
